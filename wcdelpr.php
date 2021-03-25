@@ -29,3 +29,4 @@ include_once WCDELPR_PLUGIN_DIRNAME . '/src/Autoloader.php';
 $GLOBALS['delete_woocommerce_products'] = new WCDelPR();
 
 register_activation_hook(__FILE__, array('WCDelPr', 'activation'));
+register_deactivation_hook(__FILE__, array('WCDelPr', 'deactivation'));

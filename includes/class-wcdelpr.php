@@ -13,6 +13,21 @@ class WCDelPR
         add_action("admin_action_{$this->action}", [$this, 'wcdelpr']);
     }
 
+    static function activation()
+    {
+        if (!is_plugin_active('woocommerce/woocommerce.php')) {
+            deactivate_plugins(plugin_basename(__FILE__));
+            wp_die(__('Install(Activate) WooCommecre Plugin!', WCDELPR_PLUGIN_TEXTDOMAIN));
+        }
+
+        WCDelPr_Query::create_procedures();
+    }
+
+    static function deactivation()
+    {
+        WCDelPr_Query::drop_procedures();
+    }
+
     function wcdelpr($type)
     {
         $type = $_POST['type'];
@@ -31,17 +46,6 @@ class WCDelPR
 
         wp_redirect($_SERVER['HTTP_REFERER']);
         exit();
-    }
-
-    static function activation()
-    {
-        if (!is_plugin_active('woocommerce/woocommerce.php')) {
-            deactivate_plugins(plugin_basename(__FILE__));
-            wp_die(__('Install(Activate) WooCommecre Plugin!', WCDELPR_PLUGIN_TEXTDOMAIN));
-        }
-
-        WCDelPr_Query::proc_wc_products_insert();
-        WCDelPr_Query::proc_wc_products_delete();
     }
 
     function delete_products_init()
@@ -70,7 +74,7 @@ class WCDelPR
 
         <?php WCDelPR_View::include_template(
             'form',
-            ['action' => $this->action, 'type' => $this->insert, 'button' => __('Insert 500 000 test records')]
+            ['action' => $this->action, 'type' => $this->insert, 'button' => __('Insert 100 000 test records')]
         ); ?>
 
 <?php
