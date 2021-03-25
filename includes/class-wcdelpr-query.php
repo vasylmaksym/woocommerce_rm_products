@@ -59,7 +59,7 @@ class WCDelPr_Query
     static function proc_wc_products_delete()
     {
         global $wpdb;
-        $now = date('Y-m-d H:i:s');
+
         $proc_name = self::PROC_PRODUCTS_DELETE;
         $wc_product_post_type = WC_PRODUCT_POST_TYPE;
 
@@ -76,9 +76,7 @@ class WCDelPr_Query
                             LEFT JOIN 
                                 {$wpdb->term_relationships} tr ON tr.object_id = p.ID 
                             WHERE 
-                                p.post_type = '{$wc_product_post_type}'
-                            AND 
-                                p.post_date < '{$now}'; 
+                                p.post_type = '{$wc_product_post_type}'; 
                             commit;
                             SET counter = counter + 1;
                             SELECT SLEEP(2);
